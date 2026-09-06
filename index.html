@@ -21,11 +21,209 @@
   </header>
 
   <main id="app-container" class="main-content">
-    <!-- Região para Injeção Dinâmica do Formulário de Triagem -->
-    <section id="formContainer" class="form-region" aria-label="Formulário de Entrada de Dados"></section>
     
-    <!-- Região para Injeção Dinâmica dos Resultados e Tabelas de Corte -->
-    <section id="resultContainer" class="result-region" aria-label="Resultados e Otimização"></section>
+    <!-- Formulário de Triagem Visível por Padrão -->
+    <section id="formContainer" class="form-region" aria-label="Formulário de Entrada de Dados">
+      <form id="triagem-form" class="triagem-form" aria-label="Formulário de Triagem de Móvel">
+        <header class="form-header">
+          <h2 class="form-title">Dimensões &amp; Estrutura</h2>
+          <p class="form-subtitle">Informe as medidas brutas e especificações do projeto.</p>
+        </header>
+
+        <div class="form-grid">
+          <!-- Identificação do Projeto -->
+          <div class="form-group form-group--full">
+            <label for="projectName" class="form-label">Nome do Projeto / Cliente</label>
+            <input 
+              type="text" 
+              id="projectName" 
+              name="projectName" 
+              class="form-input" 
+              placeholder="Ex: Armário de Cozinha - Módulo A" 
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Seleção do Tipo de Móvel -->
+          <div class="form-group form-group--full">
+            <label for="furnitureType" class="form-label">Tipo de Móvel</label>
+            <select id="furnitureType" name="furnitureType" class="form-select" required>
+              <option value="BALCAO">Balcão Base / Gabinete</option>
+              <option value="AEREO">Armário Aéreo / Suspenso</option>
+              <option value="ARMARIO">Armário Alto / Torremotero</option>
+            </select>
+          </div>
+
+          <!-- Dimensões Principais (mm) -->
+          <div class="form-group">
+            <label for="height" class="form-label">Altura (mm)</label>
+            <input 
+              type="number" 
+              id="height" 
+              name="height" 
+              class="form-input" 
+              placeholder="Ex: 720" 
+              min="1" 
+              step="1"
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="width" class="form-label">Largura (mm)</label>
+            <input 
+              type="number" 
+              id="width" 
+              name="width" 
+              class="form-input" 
+              placeholder="Ex: 800" 
+              min="1" 
+              step="1"
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="depth" class="form-label">Profundidade (mm)</label>
+            <input 
+              type="number" 
+              id="depth" 
+              name="depth" 
+              class="form-input" 
+              placeholder="Ex: 500" 
+              min="1" 
+              step="1"
+              required 
+            />
+          </div>
+
+          <!-- Espessuras e Materiais (Caixa e Portas) -->
+          <div class="form-group">
+            <label for="boxThickness" class="form-label">Espessura Caixa (mm)</label>
+            <select id="boxThickness" name="boxThickness" class="form-select">
+              <option value="15">15 mm</option>
+              <option value="18">18 mm</option>
+              <option value="25">25 mm</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="doorThickness" class="form-label">Espessura Portas (mm)</label>
+            <select id="doorThickness" name="doorThickness" class="form-select">
+              <option value="15">15 mm</option>
+              <option value="18">18 mm</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="gapClearance" class="form-label">Folga / Desconto (mm)</label>
+            <input 
+              type="number" 
+              id="gapClearance" 
+              name="gapClearance" 
+              class="form-input" 
+              value="3" 
+              min="0" 
+              step="0.5"
+            />
+          </div>
+
+          <!-- Configurações Adicionais -->
+          <div class="form-group">
+            <label for="materialType" class="form-label">Tipo de Material</label>
+            <select id="materialType" name="materialType" class="form-select">
+              <option value="MDF_BRANCO">MDF Branco TX</option>
+              <option value="MDF_AMADEIRADO">MDF Amadeirado / Colorido</option>
+              <option value="MDP_BRANCO">MDP Branco</option>
+              <option value="COMPENSADO">Compensado Naval</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="backPlateType" class="form-label">Tipo de Fundo</label>
+            <select id="backPlateType" name="backPlateType" class="form-select">
+              <option value="RAIADO">Rasgado / Encaixado (6mm)</option>
+              <option value="SOBREPOSTO">Sobreposto / Pregado (6mm)</option>
+              <option value="MESMA_ESPESSURA">Mesma Espessura do Corpo</option>
+              <option value="SEM_FUNDO">Sem Fundo</option>
+            </select>
+          </div>
+
+          <div class="form-group form-group--full">
+            <label class="form-checkbox-label">
+              <input type="checkbox" id="hasEdgeBanding" name="hasEdgeBanding" class="form-checkbox" checked />
+              <span>Aplicar Fita de Borda em todas as faces visíveis</span>
+            </label>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Região de Resultados Visível por Padrão -->
+    <section id="resultContainer" class="result-region" aria-label="Resultados e Otimização">
+      <div class="results-wrapper">
+        
+        <!-- Tabela de Plano de Corte -->
+        <div id="cutting-list-container" class="card-result-section">
+          <header class="section-header">
+            <h3 class="section-title">📋 Plano de Corte (Plano de Peças)</h3>
+            <span class="badge-info" id="cuttingCountBadge">0 peças</span>
+          </header>
+          <div class="table-responsive">
+            <table class="table-cutlist" aria-label="Tabela de Peças para Corte">
+              <thead>
+                <tr>
+                  <th scope="col">Rótulo / Peça</th>
+                  <th scope="col">Qtd</th>
+                  <th scope="col">Comprimento (mm)</th>
+                  <th scope="col">Largura (mm)</th>
+                  <th scope="col">Material</th>
+                  <th scope="col">Fita de Borda</th>
+                </tr>
+              </thead>
+              <tbody id="cuttingListTableBody">
+                <tr>
+                  <td colspan="6" class="text-center text-muted">Nenhuma peça gerada. Preencha as dimensões acima.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tabela de Ferragens -->
+        <div id="hardware-list-container" class="card-result-section margin-top-lg">
+          <header class="section-header">
+            <h3 class="section-title">🔩 Ferragens &amp; Insumos</h3>
+            <span class="badge-info" id="hardwareCountBadge">0 itens</span>
+          </header>
+          <div class="table-responsive">
+            <table class="table-hardware" aria-label="Tabela de Ferragens e Insumos">
+              <thead>
+                <tr>
+                  <th scope="col">Item / Descrição</th>
+                  <th scope="col">Qtd</th>
+                  <th scope="col">Especificação Técnica</th>
+                </tr>
+              </thead>
+              <tbody id="hardwareListTableBody">
+                <tr>
+                  <td colspan="3" class="text-center text-muted">Nenhum insumo ou ferragem calculada.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Ações de Exportação -->
+        <div class="actions-wrapper margin-top-lg">
+          <button type="button" id="btn-export-csv" class="btn btn-success">
+            <span>📥</span> Exportar Lista de Corte (CSV)
+          </button>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <footer class="app-footer">
