@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';">
   <meta name="description" content="MarcenariaCalc - Calculadora e Otimizadora Mobile-First para Marcenaria Profissional">
   <title>MarcenariaCalc</title>
   <link rel="stylesheet" href="./css/style.css">
@@ -15,12 +16,15 @@
         <span class="brand-icon" aria-hidden="true">🪚</span>
         <h1 class="brand-title">Marcenaria<span>Calc</span></h1>
       </div>
-      <p class="brand-tagline">Cálculo de Planos de Corte & Insumos</p>
+      <p class="brand-tagline">Cálculo de Planos de Corte &amp; Insumos</p>
     </div>
   </header>
 
   <main id="app-container" class="main-content">
+    <!-- Região para Injeção Dinâmica do Formulário de Triagem -->
     <section id="formContainer" class="form-region" aria-label="Formulário de Entrada de Dados"></section>
+    
+    <!-- Região para Injeção Dinâmica dos Resultados e Tabelas de Corte -->
     <section id="resultContainer" class="result-region" aria-label="Resultados e Otimização"></section>
   </main>
 
